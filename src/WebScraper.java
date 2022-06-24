@@ -68,6 +68,7 @@ public class WebScraper {
 
             price = price.replace("$", "");
             price = price.replace(" USD", "");
+            price = price.replace(",", "");
 
             //System.out.println(price);
             if(!price.isEmpty())
