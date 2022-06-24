@@ -62,9 +62,11 @@ public class main {
             System.out.print(loadingAnim);
 
             //System.out.println(ticker); //delete this statement, it's for debugging purposes
+            //System.out.println(webScraper.grabPrice(ticker));
             if(webScraper.zacksAnalystStatusGetter(ticker).equals(desiredRating) && (webScraper.grabPrice(ticker) >= min) && (webScraper.grabPrice(ticker) <= max))
             {
-                System.out.println(ticker);
+                System.out.println();
+                System.out.println("This is Valid: " + ticker);
                 try (PrintWriter out = new PrintWriter(new FileWriter("StockApplicationOutput.txt", true))) {
                     out.append(ticker + "\n");
                 }

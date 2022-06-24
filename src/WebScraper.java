@@ -59,16 +59,20 @@ public class WebScraper {
     public double grabPrice(String ticker) throws IOException {
 
         try {
-            String url = "https://finance.yahoo.com/quote/" + ticker + "?p=" + ticker;
+            String url = "https://www.zacks.com/stock/quote/" + ticker;
 
 
             final Document document = Jsoup.connect(url).get();
 
-            String price = document.getElementsByClass("Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)").text();
+            String price = document.getElementsByClass("last_price").text();
 
-            price = price.replace(",", "");
+            price = price.replace("$", "");
+            price = price.replace(" USD", "");
 
-            return Double.parseDouble(price);
+            //System.out.println(price);
+            if(!price.isEmpty())
+                return Double.parseDouble(price);
+            return (-1);
 
         } catch (UnsupportedEncodingException | FileNotFoundException e) {
             // TODO Auto-generated catch block
