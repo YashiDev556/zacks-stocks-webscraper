@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,8 +43,7 @@ public class WebScraper {
 
 
         } catch (IOException e) {
-            //e.printStackTrace();
-            ;
+            System.out.println("Couldn't get Analyst Rating of: " + ticker);
         }
 
         for(int j = 0; j < 5; j++)
@@ -56,12 +56,14 @@ public class WebScraper {
         return rating;
     }
 
-    public double grabPrice(String ticker) throws IOException {
+    public double grabPrice(String ticker) throws IOException{
 
+    	
+    	double returnedPrice = -1;
         try {
             String url = "https://www.zacks.com/stock/quote/" + ticker;
 
-
+            //yahoo finance class for price: e3b14781 f5a023e1
             final Document document = Jsoup.connect(url).get();
 
             String price = document.getElementsByClass("last_price").text();
@@ -72,7 +74,41 @@ public class WebScraper {
 
             //System.out.println(price);
             if(!price.isEmpty())
-                return Double.parseDouble(price);
+            	try {
+            		returnedPrice = Double.parseDouble(price);
+            	} catch (Exception e) {
+            		returnedPrice = -1;
+            	}
+                
+            return (returnedPrice);
+
+        } catch (UnsupportedEncodingException | FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            //e.printStackTrace();
+            System.out.println("Couldn't get the link to: " + ticker);
+
+        }
+
+        return returnedPrice;
+
+    }
+    
+    public long grabVolume(String ticker) throws IOException {
+
+        try {
+            String url = "https://finance.yahoo.com/quote/" + ticker;
+
+
+            final Document document = Jsoup.connect(url).get();
+
+            String volume = document.getElementsByAttributeValue("data-test", "AVERAGE_VOLUME_3MONTH-value").text();
+            
+            volume = volume.replace(",", "");
+            
+            //volume class for yahoo finance: e3b14781 e983cf79
+            //System.out.println(price);
+            if(!volume.isEmpty())
+                return Long.parseLong(volume);
             return (-1);
 
         } catch (UnsupportedEncodingException | FileNotFoundException e) {

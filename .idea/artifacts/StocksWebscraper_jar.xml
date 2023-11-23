@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="StocksWebscraper:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/StocksWebscraper_jar</output-path>
-    <root id="archive" name="StocksWebscraper.jar">
-      <element id="module-output" name="StocksWebscraper" />
-      <element id="extracted-dir" path="$USER_HOME$/Desktop/JAR_Files/jsoup-1.13.1.jar" path-in-jar="/" />
-    </root>
-  </artifact>
-</component>

@@ -1,3 +1,5 @@
+
+
 /**
  * @author YashiDev556
  */
@@ -27,6 +29,24 @@ public class main {
 
         System.out.println("Maximum Price? (Enter an Integer value): ");
         int max = Integer.parseInt(input.nextLine());
+        
+        System.out.println("Do You wish to search for Average Volume? (y/N): ");
+        String answertoVol = input.nextLine();
+        
+        long minVol = -1;
+        
+        long maxVol = -1;
+        
+        if((!answertoVol.equals("")) && (!answertoVol.equals("N")) && (!answertoVol.equals("n")))
+        {
+        	System.out.println("Average Volume Minimum? (Enter an Integer)");
+        	minVol = Long.parseLong(input.nextLine());
+        	System.out.println("Average Volume Maxmimum? (Enter an Integer)");
+        	maxVol = Long.parseLong(input.nextLine());
+        	
+        }
+        	
+        
 
 
 
@@ -60,17 +80,33 @@ public class main {
             // Print the content on the console
 
             System.out.print(loadingAnim);
+            
 
             //System.out.println(ticker); //delete this statement, it's for debugging purposes
             //System.out.println(webScraper.grabPrice(ticker));
-            if(webScraper.zacksAnalystStatusGetter(ticker).equals(desiredRating) && (webScraper.grabPrice(ticker) >= min) && (webScraper.grabPrice(ticker) <= max))
+            
+            if(minVol == -1)
             {
-                System.out.println();
-                System.out.println("This is Valid: " + ticker);
-                try (PrintWriter out = new PrintWriter(new FileWriter("StockApplicationOutput.txt", true))) {
-                    out.append(ticker + "\n");
-                }
+            	if(webScraper.zacksAnalystStatusGetter(ticker).equals(desiredRating) && (webScraper.grabPrice(ticker) >= min) && (webScraper.grabPrice(ticker) <= max))
+	            {
+	                System.out.println();
+	                System.out.println("This is Valid: " + ticker + " Price: " + webScraper.grabPrice(ticker) + " Average Volume: " + webScraper.grabVolume(ticker));
+	                try (PrintWriter out = new PrintWriter(new FileWriter("StockApplicationOutput.txt", true))) {
+	                    out.append(ticker + " Price: " + webScraper.grabPrice(ticker) + " Average Volume: " + webScraper.grabVolume(ticker) + "\n");
+	                }
+	            }
+            } else {
+            	if(webScraper.zacksAnalystStatusGetter(ticker).equals(desiredRating) && (webScraper.grabPrice(ticker) >= min) && (webScraper.grabPrice(ticker) <= max)
+            			&& (webScraper.grabVolume(ticker) >= minVol) && (webScraper.grabVolume(ticker) <= maxVol))
+	            {
+	                System.out.println();
+	                System.out.println("This is Valid: " + ticker + " Price: " + webScraper.grabPrice(ticker) + " Average Volume: " + webScraper.grabVolume(ticker));
+	                try (PrintWriter out = new PrintWriter(new FileWriter("StockApplicationOutput.txt", true))) {
+	                	out.append(ticker + " Price: " + webScraper.grabPrice(ticker) + " Average Volume: " + webScraper.grabVolume(ticker) + "\n");
+	                }
+	            }
             }
+	            
 
 
 
@@ -80,20 +116,12 @@ public class main {
 
 
         System.out.println("All done! Have a nice day! \n \n Github Profile Link: https://github.com/YashiDev556");
-        System.out.println("Press any Key to exit");
+        System.out.println("Press Enter to exit");
         String quitter = input.nextLine();
 
         //System.setOut(out);
 
         //Close the input stream
         fstream.close();
-
-
-
-
-
     }
-
-
 }
-//https://finance.yahoo.com/chart/AMD?technical=short&ncid=dcm_306158732_490172245_127172993
